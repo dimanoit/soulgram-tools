@@ -1,0 +1,486 @@
+{
+	"info": {
+		"_postman_id": "ad720b76-a1c2-4b27-916a-466335b827a5",
+		"name": "Soulgram",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Identity Service",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\":\"dimanoit@gmail.com\",\r\n    \"Password\":\"DimaPassword123#\",\r\n    \"ConfirmPassword\":\"DimaPassword123#\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{identity_ulr}}/api/account",
+							"host": [
+								"{{identity_ulr}}"
+							],
+							"path": [
+								"api",
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{identity_ulr}}/api/account",
+							"host": [
+								"{{identity_ulr}}"
+							],
+							"path": [
+								"api",
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"16322773-4558-45a1-8035-2f69dcace84e\",\r\n    \"userName\": \"dimanoit@gmail.com\",\r\n    \"normalizedUserName\": \"DIMANOIT@GMAIL.COM\",\r\n    \"email\": \"dimanoit@gmail.com\",\r\n    \"normalizedEmail\": \"DIMANOIT@GMAIL.COM\",\r\n    \"emailConfirmed\": false,\r\n    \"passwordHash\": \"AQAAAAEAACcQAAAAEA0jhC0vi7eJkDADmHcmZnLnrzTBO/ZhSXx+yafQm/i0hWnK6SD9U5drKHfE4xQr5g==\",\r\n    \"securityStamp\": \"BI5F65FXL2Q6ZVDAJXRUL6VSF36MPR7D\",\r\n    \"concurrencyStamp\": \"fd991e02-a0b8-4406-9476-537e4e35c939\",\r\n    \"phoneNumber\":\"+380733203122\",\r\n    \"phoneNumberConfirmed\": false,\r\n    \"twoFactorEnabled\": false,\r\n    \"lockoutEnd\": null,\r\n    \"lockoutEnabled\": true,\r\n    \"accessFailedCount\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{identity_ulr}}/api/account",
+							"host": [
+								"{{identity_ulr}}"
+							],
+							"path": [
+								"api",
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{identity_ulr}}/api/account",
+							"host": [
+								"{{identity_ulr}}"
+							],
+							"path": [
+								"api",
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Token For Local Api",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"pm.environment.set(\"LocalIdentityToken\", data.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "test_human_client",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "posts,IdentityServerApi",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "DimaPassword123#",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "dimanoit@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{identity_ulr}}/connect/token",
+							"host": [
+								"{{identity_ulr}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{identity_ulr}}/connect/userinfo",
+							"host": [
+								"{{identity_ulr}}"
+							],
+							"path": [
+								"connect",
+								"userinfo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Posts Service",
+			"item": [
+				{
+					"name": "Get Posts By User Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{posts_api_url}}/api/search?userId=\"kek\"",
+							"host": [
+								"{{posts_api_url}}"
+							],
+							"path": [
+								"api",
+								"search"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "\"kek\""
+								},
+								{
+									"key": "skip",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Posts By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{posts_api_url}}/api/search?Id=QvBVbX4B_17mPzU6Txvg",
+							"host": [
+								"{{posts_api_url}}"
+							],
+							"path": [
+								"api",
+								"search"
+							],
+							"query": [
+								{
+									"key": "Id",
+									"value": "QvBVbX4B_17mPzU6Txvg"
+								},
+								{
+									"key": "skip",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"first elastic post\",\r\n    \"isArticle\": false,\r\n    \"userId\":\"9aa517c4-21ca-440b-bce0-99dee1e98eb7\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{posts_api_url}}/api/posts",
+							"host": [
+								"{{posts_api_url}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Views Count",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{posts_api_url}}/api/views/IzJ_aH4B6A1yFUQ9xA6U/count/10",
+							"host": [
+								"{{posts_api_url}}"
+							],
+							"path": [
+								"api",
+								"views",
+								"IzJ_aH4B6A1yFUQ9xA6U",
+								"count",
+								"10"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"Updated post elastic post\",\r\n    \"postId\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{posts_api_url}}/api/posts",
+							"host": [
+								"{{posts_api_url}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{posts_api_url}}/api/posts?postId=QvBVbX4B_17mPzU6Txvg",
+							"host": [
+								"{{posts_api_url}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "postId",
+									"value": "QvBVbX4B_17mPzU6Txvg"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
