@@ -1,3 +1,7 @@
+# Tools
+
+#### This repo contains all services to setup Soulgram dependencies(redis, ms-sql, rabbit-mq, elasticsearch, kibana)
+
 ## Installation
 
 In order to start all services open CMD and write command
