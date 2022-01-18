@@ -49,7 +49,7 @@ services:
   mssql:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
-      - SA_PASSWORD=test1111
+      - SA_PASSWORD=test123#TTT
       - ACCEPT_EULA=Y
     ports:
       - "5434:1433"
