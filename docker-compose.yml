@@ -47,10 +47,11 @@ services:
     networks:
       - elastic
   mssql:
-    image: mcr.microsoft.com/mssql/server:2019-latest
+    image: mcr.microsoft.com/azure-sql-edge
     environment:
       - SA_PASSWORD=test123#TTT
       - ACCEPT_EULA=Y
+      - MSSQL_PID=Developer
     ports:
       - "5434:1433"
 
