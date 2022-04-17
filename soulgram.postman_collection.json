@@ -11,11 +11,14 @@
 				{
 					"name": "Register",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Email\":\"dimanoit@gmail.com\",\r\n    \"Password\":\"DimaPassword123#\",\r\n    \"ConfirmPassword\":\"DimaPassword123#\"\r\n}",
+							"raw": "{\r\n    \"Email\":\"dimanoit@gmail.com\",\r\n    \"Password\":\"DimaPassword123#\",\r\n    \"ConfirmPassword\":\"DimaPassword123#\",\r\n    \"Nickname\":\"dimanoit\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -64,6 +67,35 @@
 					"response": []
 				},
 				{
+					"name": "Get User Compact",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{identity_ulr}}/api/account/compact",
+							"host": [
+								"{{identity_ulr}}"
+							],
+							"path": [
+								"api",
+								"account",
+								"compact"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Update User",
 					"request": {
 						"auth": {
@@ -80,7 +112,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": \"16322773-4558-45a1-8035-2f69dcace84e\",\r\n    \"userName\": \"dimanoit@gmail.com\",\r\n    \"normalizedUserName\": \"DIMANOIT@GMAIL.COM\",\r\n    \"email\": \"dimanoit@gmail.com\",\r\n    \"normalizedEmail\": \"DIMANOIT@GMAIL.COM\",\r\n    \"emailConfirmed\": false,\r\n    \"passwordHash\": \"AQAAAAEAACcQAAAAEA0jhC0vi7eJkDADmHcmZnLnrzTBO/ZhSXx+yafQm/i0hWnK6SD9U5drKHfE4xQr5g==\",\r\n    \"securityStamp\": \"BI5F65FXL2Q6ZVDAJXRUL6VSF36MPR7D\",\r\n    \"concurrencyStamp\": \"fd991e02-a0b8-4406-9476-537e4e35c939\",\r\n    \"phoneNumber\":\"+380733203122\",\r\n    \"phoneNumberConfirmed\": false,\r\n    \"twoFactorEnabled\": false,\r\n    \"lockoutEnd\": null,\r\n    \"lockoutEnabled\": true,\r\n    \"accessFailedCount\": 0\r\n}",
+							"raw": "{\r\n    \"id\": \"fcc137bd-8306-4d66-a49b-ba00231f6969\",\r\n    \"hobbies\":\"Music, Dancing, Movies\",\r\n    \"fullname\":\"Dmytro Kirieiev\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -95,6 +127,45 @@
 							"path": [
 								"api",
 								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Profile Img",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "picture",
+									"type": "file",
+									"src": "/Users/Dima/Programming/Soulgram/soulgram-ui/src/src/assets/images/mock-small-profile-7.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{identity_ulr}}/api/account/profile-img",
+							"host": [
+								"{{identity_ulr}}"
+							],
+							"path": [
+								"api",
+								"account",
+								"profile-img"
 							]
 						}
 					},
@@ -186,7 +257,7 @@
 								},
 								{
 									"key": "username",
-									"value": "dimanoit@gmail.com",
+									"value": "dimanoit",
 									"type": "text"
 								}
 							]
@@ -253,23 +324,24 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{posts_api_url}}/api/search?userId=\"kek\"",
+							"raw": "{{posts_api_url}}/api/search/user?userId=9aa517c4-21ca-440b-bce0-99dee1e98eb7",
 							"host": [
 								"{{posts_api_url}}"
 							],
 							"path": [
 								"api",
-								"search"
+								"search",
+								"user"
 							],
 							"query": [
-								{
-									"key": "userId",
-									"value": "\"kek\""
-								},
 								{
 									"key": "skip",
 									"value": "",
 									"disabled": true
+								},
+								{
+									"key": "userId",
+									"value": "9aa517c4-21ca-440b-bce0-99dee1e98eb7"
 								}
 							]
 						}
@@ -292,7 +364,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{posts_api_url}}/api/search?Id=QvBVbX4B_17mPzU6Txvg",
+							"raw": "{{posts_api_url}}/api/search?Id=HRYAzH8BvNIFCXbnFaFy",
 							"host": [
 								"{{posts_api_url}}"
 							],
@@ -302,13 +374,13 @@
 							],
 							"query": [
 								{
-									"key": "Id",
-									"value": "QvBVbX4B_17mPzU6Txvg"
-								},
-								{
 									"key": "skip",
 									"value": "",
 									"disabled": true
+								},
+								{
+									"key": "Id",
+									"value": "HRYAzH8BvNIFCXbnFaFy"
 								}
 							]
 						}
@@ -331,13 +403,35 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"text\": \"first elastic post\",\r\n    \"isArticle\": false,\r\n    \"userId\":\"9aa517c4-21ca-440b-bce0-99dee1e98eb7\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"type": "file",
+									"src": "/Users/Dima/Pictures/Fronalpstock_big.jpeg"
+								},
+								{
+									"key": "text",
+									"value": "Nature is beabeautiful ",
+									"type": "text"
+								},
+								{
+									"key": "userId",
+									"value": "9aa517c4-21ca-440b-bce0-99dee1e98eb7",
+									"type": "text"
+								},
+								{
+									"key": "hashTags",
+									"value": "#nature#beauty",
+									"type": "text"
+								},
+								{
+									"key": "postType",
+									"value": "Post",
+									"type": "text",
+									"disabled": true
 								}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{posts_api_url}}/api/posts",
@@ -347,6 +441,50 @@
 							"path": [
 								"api",
 								"posts"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Article",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"Frst Article via postman\",\n    \"text\": \"Some text written by dmytro\",\n    \"hashtags\":[\"#article\", \"#by_dima\"],\n    \"userId\": \"9aa517c4-21ca-440b-bce0-99dee1e98eb7\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{posts_api_url}}/api/articles",
+							"host": [
+								"{{posts_api_url}}"
+							],
+							"path": [
+								"api",
+								"articles"
 							],
 							"query": [
 								{
@@ -414,7 +552,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"text\": \"Updated post elastic post\",\r\n    \"postId\":\"\"\r\n}",
+							"raw": "{\r\n    \"text\": \"Updated post elastic post\",\r\n    \"postId\":\"HRYAzH8BvNIFCXbnFaFy\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -475,6 +613,111 @@
 									"key": "postId",
 									"value": "QvBVbX4B_17mPzU6Txvg"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://soulgram.azurewebsites.net/auth",
+							"protocol": "https",
+							"host": [
+								"soulgram",
+								"azurewebsites",
+								"net"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Gateway",
+			"item": [
+				{
+					"name": "Get User Compact",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/user-compact",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"user-compact"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Compact Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/posts/user/9aa517c4-21ca-440b-bce0-99dee1e98eb7",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"posts",
+								"user",
+								"9aa517c4-21ca-440b-bce0-99dee1e98eb7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Account Manage Service",
+			"item": [
+				{
+					"name": "Healthchek",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{accountManage_url}}/api/userinfo/healthcheck",
+							"host": [
+								"{{accountManage_url}}"
+							],
+							"path": [
+								"api",
+								"userinfo",
+								"healthcheck"
 							]
 						}
 					},
