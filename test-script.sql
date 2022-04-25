@@ -7,7 +7,12 @@ USE [Soulgram.AccountManage]
 
 SELECT * FROM dbo.UserInfos
 
+SELECT * FROM dbo.MateRequests
 
-SELECT * FROM dbo.Hobbies
 
-SELECT * FROM dbo.UserHobbies
+USE [Soulgram.Identity]
+
+SELECT * FROM dbo.IntegrationEventLog
+
+
+SELECT * FROM dbo.AspNetUsers
