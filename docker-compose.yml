@@ -1,6 +1,15 @@
 version: '3.9'
 
 services:
+  sea:
+    container_name: sea
+    image: datalust/seq:latest
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:80
+    volumes:
+      - data01:/log-data
   mongo:
     image: mongo
     container_name: mondodb
