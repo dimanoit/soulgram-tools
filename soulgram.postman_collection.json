@@ -316,7 +316,7 @@
 								{
 									"key": "files",
 									"type": "file",
-									"src": "/Users/Dima/Pictures/Fronalpstock_big.jpeg"
+									"src": "/C:/Users/diman/Pictures/d7deef7ef29adf8187d9a9f39e6a034e.png"
 								},
 								{
 									"key": "text",
@@ -662,14 +662,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{accountManage_url}}/api/images/0012f4c7-beb6-481c-80f9-79979a65112c?userId={{current-user-id}}",
+							"raw": "{{accountManage_url}}/api/images/9ea7fa58-a9c3-4dc2-b3cb-8aeb45a0740b?userId={{current-user-id}}",
 							"host": [
 								"{{accountManage_url}}"
 							],
 							"path": [
 								"api",
 								"images",
-								"0012f4c7-beb6-481c-80f9-79979a65112c"
+								"9ea7fa58-a9c3-4dc2-b3cb-8aeb45a0740b"
 							],
 							"query": [
 								{
@@ -744,12 +744,30 @@
 							"response": []
 						},
 						{
+							"name": "Get intersts",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{interests_url}}/api/interests",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"interests"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Get selected interests",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{interests_url}}/api/interests?interestsIds=62a632fef26bfb9d8cb5279b&interestsIds=62a632fef26bfb9d8cb5279c",
+									"raw": "{{interests_url}}/api/interests?interestsIds=62a62c5b4a4398f6e8bf349f&interestsIds=62a62c5b4a4398f6e8bf34a0",
 									"host": [
 										"{{interests_url}}"
 									],
@@ -760,11 +778,11 @@
 									"query": [
 										{
 											"key": "interestsIds",
-											"value": "62a632fef26bfb9d8cb5279b"
+											"value": "62a62c5b4a4398f6e8bf349f"
 										},
 										{
 											"key": "interestsIds",
-											"value": "62a632fef26bfb9d8cb5279c"
+											"value": "62a62c5b4a4398f6e8bf34a0"
 										}
 									]
 								}
@@ -823,7 +841,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "[\"62a62c5b4a4398f6e8bf349d\",\"62a62c5b4a4398f6e8bf349e\",\"62a62c5b4a4398f6e8bf349f\"]",
+									"raw": "[\"62a62c5b4a4398f6e8bf34a3\"]",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -848,61 +866,143 @@
 					]
 				},
 				{
-					"name": "Get genres",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{interests_url}}/api/genres?userId={{current-user-id}}",
-							"host": [
-								"{{interests_url}}"
-							],
-							"path": [
-								"api",
-								"genres"
-							],
-							"query": [
-								{
-									"key": "userId",
-									"value": "{{current-user-id}}"
+					"name": "Genres",
+					"item": [
+						{
+							"name": "Get genres",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{interests_url}}/api/genres",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"genres"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
 								}
-							]
+							},
+							"response": []
+						},
+						{
+							"name": "Get genres for user",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{interests_url}}/api/genres?userId={{current-user-id}}",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"genres"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "{{current-user-id}}"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "Search Movie By Name",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{interests_url}}/api/movies/?name=Avengers&limit=7&page=2",
-							"host": [
-								"{{interests_url}}"
-							],
-							"path": [
-								"api",
-								"movies",
-								""
-							],
-							"query": [
-								{
-									"key": "name",
-									"value": "Avengers"
-								},
-								{
-									"key": "limit",
-									"value": "7"
-								},
-								{
-									"key": "page",
-									"value": "2"
+					"name": "Movies",
+					"item": [
+						{
+							"name": "Search Movie By Name",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{interests_url}}/api/movies/?name=Grown ups&limit=20&page=1",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"movies",
+										""
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Grown ups"
+										},
+										{
+											"key": "limit",
+											"value": "20"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
 								}
-							]
+							},
+							"response": []
+						},
+						{
+							"name": "Get users movies",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{interests_url}}/api/movies/{{current-user-id}}",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"movies",
+										"{{current-user-id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add movie to user",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n        \"imdbId\": \"tt1375670\",\r\n        \"title\": \"Grown Ups\",\r\n        \"briefDescription\": \"After their high school basketball coach passes away, five good friends and former teammates reunite for a Fourth of July holiday weekend.\",\r\n        \"releasedYear\": 2010,\r\n        \"genres\": [\r\n            \"Comedy\"\r\n        ],\r\n        \"imgUrls\": [\r\n            \"https://m.media-amazon.com/images/M/MV5BMjA0ODYwNzU5Nl5BMl5BanBnXkFtZTcwNTI1MTgxMw@@._V1_.jpg\"\r\n        ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{interests_url}}/api/movies/{{current-user-id}}",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"movies",
+										"{{current-user-id}}"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		}
