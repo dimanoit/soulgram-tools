@@ -1,0 +1,1062 @@
+{
+	"info": {
+		"_postman_id": "66bd07c8-c311-4850-a446-267d6a591206",
+		"name": "Soulgram",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6871927"
+	},
+	"item": [
+		{
+			"name": "Identity Service",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\":\"dimanoit@gmail.com\",\r\n    \"Password\":\"DimaPassword123#\",\r\n    \"ConfirmPassword\":\"DimaPassword123#\",\r\n    \"Nickname\":\"dimanoit\",\r\n    \"FullName\":\"Dmytro Kirieiev\",\r\n    \"Birthday\":\"1998-10-12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{identity_ulr}}/api/account",
+							"host": [
+								"{{identity_ulr}}"
+							],
+							"path": [
+								"api",
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{identity_ulr}}/api/account",
+							"host": [
+								"{{identity_ulr}}"
+							],
+							"path": [
+								"api",
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{identity_ulr}}/api/account",
+							"host": [
+								"{{identity_ulr}}"
+							],
+							"path": [
+								"api",
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Token For Local Api",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"pm.environment.set(\"LocalIdentityToken\", data.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "test_human_client",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "posts,IdentityServerApi",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "DimaPassword123#",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "dimanoit",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{identity_ulr}}/connect/token",
+							"host": [
+								"{{identity_ulr}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"pm.environment.set(\"current-user-id\", data.sub);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{identity_ulr}}/connect/userinfo",
+							"host": [
+								"{{identity_ulr}}"
+							],
+							"path": [
+								"connect",
+								"userinfo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Posts Service",
+			"item": [
+				{
+					"name": "Get Posts By User Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{posts_api_url}}/api/search/user?userId={{current-user-id}}",
+							"host": [
+								"{{posts_api_url}}"
+							],
+							"path": [
+								"api",
+								"search",
+								"user"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "userId",
+									"value": "{{current-user-id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Posts By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{posts_api_url}}/api/search?Id=J1QY8YABYgwZi8UCr6Im",
+							"host": [
+								"{{posts_api_url}}"
+							],
+							"path": [
+								"api",
+								"search"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "Id",
+									"value": "J1QY8YABYgwZi8UCr6Im"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"type": "file",
+									"src": "/C:/Users/diman/Pictures/d7deef7ef29adf8187d9a9f39e6a034e.png"
+								},
+								{
+									"key": "text",
+									"value": "Nature is beabeautiful ",
+									"type": "text"
+								},
+								{
+									"key": "userId",
+									"value": "{{current-user-id}}",
+									"type": "text"
+								},
+								{
+									"key": "hashTags",
+									"value": "#nature#beauty",
+									"type": "text"
+								},
+								{
+									"key": "postType",
+									"value": "Post",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{posts_api_url}}/api/posts",
+							"host": [
+								"{{posts_api_url}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Article",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"Frst Article via postman\",\n    \"text\": \"Some text written by dmytro\",\n    \"hashtags\":[\"#article\", \"#by_dima\"],\n    \"userId\": {{current-user-id}}\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{posts_api_url}}/api/articles",
+							"host": [
+								"{{posts_api_url}}"
+							],
+							"path": [
+								"api",
+								"articles"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Views Count",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{posts_api_url}}/api/views/IzJ_aH4B6A1yFUQ9xA6U/count/10",
+							"host": [
+								"{{posts_api_url}}"
+							],
+							"path": [
+								"api",
+								"views",
+								"IzJ_aH4B6A1yFUQ9xA6U",
+								"count",
+								"10"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"Updated post elastic post\",\r\n    \"postId\":\"HRYAzH8BvNIFCXbnFaFy\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{posts_api_url}}/api/posts",
+							"host": [
+								"{{posts_api_url}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{posts_api_url}}/api/posts?postId=QvBVbX4B_17mPzU6Txvg",
+							"host": [
+								"{{posts_api_url}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "postId",
+									"value": "QvBVbX4B_17mPzU6Txvg"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Gateway",
+			"item": [
+				{
+					"name": "Get User Compact",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/user-compact/{{current-user-id}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"user-compact",
+								"{{current-user-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search posts by user id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/posts/user/{{current-user-id}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"posts",
+								"user",
+								"{{current-user-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Account Manage Service",
+			"item": [
+				{
+					"name": "Healthchek",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{accountManage_url}}/api/user-info/healthcheck",
+							"host": [
+								"{{accountManage_url}}"
+							],
+							"path": [
+								"api",
+								"user-info",
+								"healthcheck"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{accountManage_url}}/api/user-info/{{current-user-id}}",
+							"host": [
+								"{{accountManage_url}}"
+							],
+							"path": [
+								"api",
+								"user-info",
+								"{{current-user-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user profile images",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{accountManage_url}}/api/images/?userId={{current-user-id}}",
+							"host": [
+								"{{accountManage_url}}"
+							],
+							"path": [
+								"api",
+								"images",
+								""
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "{{current-user-id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete profile image",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{accountManage_url}}/api/images/9ea7fa58-a9c3-4dc2-b3cb-8aeb45a0740b?userId={{current-user-id}}",
+							"host": [
+								"{{accountManage_url}}"
+							],
+							"path": [
+								"api",
+								"images",
+								"9ea7fa58-a9c3-4dc2-b3cb-8aeb45a0740b"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "{{current-user-id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload profile image",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "picture",
+									"type": "file",
+									"src": "/Users/Dima/Pictures/1619443089169.jpeg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{accountManage_url}}/api/images/?userId={{current-user-id}}",
+							"host": [
+								"{{accountManage_url}}"
+							],
+							"path": [
+								"api",
+								"images",
+								""
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "{{current-user-id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Interests",
+			"item": [
+				{
+					"name": "Interests",
+					"item": [
+						{
+							"name": "Get intersts for user",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{interests_url}}/api/interests/{{current-user-id}}",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"interests",
+										"{{current-user-id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get intersts",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{interests_url}}/api/interests",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"interests"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get selected interests",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{interests_url}}/api/interests?interestsIds=62a62c5b4a4398f6e8bf349f&interestsIds=62a62c5b4a4398f6e8bf34a0",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"interests"
+									],
+									"query": [
+										{
+											"key": "interestsIds",
+											"value": "62a62c5b4a4398f6e8bf349f"
+										},
+										{
+											"key": "interestsIds",
+											"value": "62a62c5b4a4398f6e8bf34a0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create users interests bulk",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"types\":\r\n    [\r\n    \"MovieName\",\r\n    \"MovieGenre\",\r\n    \"Sport\",\r\n    \"Cooking\",\r\n    \"AnimeName\",\r\n    \"AnimeGenre\",\r\n    \"Others\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{interests_url}}/api/interests",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"interests"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add interests to one user",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userId\":\"{{current-user-id}}\",\n    \"interestId\":\"62c40a801921b26b53923348\",\n    \"interestType\":\"MovieGenre\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{interests_url}}/api/interests",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"interests"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Genres",
+					"item": [
+						{
+							"name": "Get genres",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{interests_url}}/api/genres",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"genres"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get genres for user",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{interests_url}}/api/genres?userId={{current-user-id}}",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"genres"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "{{current-user-id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Load genres from client",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{interests_url}}/api/genres/from-client",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"genres",
+										"from-client"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add genres to one user",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{interests_url}}/api/genres/62c4608a4c2c9bd94b832c53/users/{{current-user-id}}",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"genres",
+										"62c4608a4c2c9bd94b832c53",
+										"users",
+										"{{current-user-id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Movies",
+					"item": [
+						{
+							"name": "Search Movie By Name",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{interests_url}}/api/movies/?name=Hustle&limit=40&page=1",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"movies",
+										""
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Hustle"
+										},
+										{
+											"key": "limit",
+											"value": "40"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get users movies",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{interests_url}}/api/movies/{{current-user-id}}",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"movies",
+										"{{current-user-id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add movie to user",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"userId\": \"{{current-user-id}}\",\r\n        \"imdbId\": \"tt8009428\",\r\n        \"title\": \"Hustle\",\r\n        \"briefDescription\": \"A basketball scout discovers a phenomenal street ball player while in Spain and sees the prospect as his opportunity to get back into the NBA.\",\r\n        \"releasedYear\": 2022,\r\n        \"genres\": [\r\n            \"Comedy\",\r\n            \"Drama\",\r\n            \"Sport\"\r\n        ],\r\n        \"imgUrls\": [\r\n            \"https://m.media-amazon.com/images/M/MV5BYjdhYTE3NjMtZjI3OC00NzVlLWFiNTUtNzQ3NDNiNTI3NDg4XkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg\"\r\n        ]\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{interests_url}}/api/movies",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"movies"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User Favorites",
+					"item": [
+						{
+							"name": "Get user favorites",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{interests_url}}/api/user-favorites/{{current-user-id}}",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"user-favorites",
+										"{{current-user-id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
