@@ -1,4 +1,7 @@
 #!/bin/sh
+wsl -d docker-desktop
+sysctl -w vm.max_map_count=262144
+
 echo 'Upping mongo db...'
 docker start 63d54ba17fa9a6f7c1a4fe6c8d13df32984974a99618455ba50abe5aa8e69177
 echo "Mongo db upped"
