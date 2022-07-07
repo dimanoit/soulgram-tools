@@ -29,5 +29,6 @@ dotnet run --project=$gateway_path &
 dotnet run --project=$identity_path &
 dotnet run --project=$account_manage_path &
 dotnet run --project=$interests_path &
-dotnet run --project=$posts_path
+dotnet run --project=$posts_path &
+npm run start
 

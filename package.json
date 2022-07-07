@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "start": "cd /Users/Dima/Programming/Soulgram/soulgram-ui && ng serve --open"
+  }
+}
