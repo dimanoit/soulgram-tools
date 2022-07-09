@@ -28,10 +28,11 @@ account_manage_path='/Users/Dima/Programming/Soulgram/Apis/soulgram-account-mana
 interests_path='/Users/Dima/Programming/Soulgram/Apis/soulgram-interests/Soulgram.Interests/Soulgram.Interests.Api'
 posts_path='/Users/Dima/Programming/Soulgram/Apis/soulgram.posts/Soulgram.Posts.Api'
 
+sleep 5
+
 dotnet run --project=$gateway_path &
 dotnet run --project=$identity_path &
 dotnet run --project=$account_manage_path &
 dotnet run --project=$interests_path &
 dotnet run --project=$posts_path &
 npm run start
-
