@@ -7,232 +7,174 @@
 	},
 	"item": [
 		{
-			"name": "Identity Service",
-			"item": [
-				{
-					"name": "Register",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"Email\":\"dimanoit@gmail.com\",\r\n    \"Password\":\"DimaPassword123#\",\r\n    \"ConfirmPassword\":\"DimaPassword123#\",\r\n    \"Nickname\":\"dimanoit\",\r\n    \"FullName\":\"Dmytro Kirieiev\",\r\n    \"Birthday\":\"1998-10-12\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{identity_ulr}}/api/account",
-							"host": [
-								"{{identity_ulr}}"
-							],
-							"path": [
-								"api",
-								"account"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get User",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{LocalIdentityToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{identity_ulr}}/api/account",
-							"host": [
-								"{{identity_ulr}}"
-							],
-							"path": [
-								"api",
-								"account"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete User",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{LocalIdentityToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{identity_ulr}}/api/account",
-							"host": [
-								"{{identity_ulr}}"
-							],
-							"path": [
-								"api",
-								"account"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Token For Local Api",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var data = pm.response.json();\r",
-									"pm.environment.set(\"LocalIdentityToken\", data.access_token);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "cache-control",
-								"value": "no-cache"
-							},
-							{
-								"key": "content-type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "client_id",
-									"value": "test_human_client",
-									"type": "text"
-								},
-								{
-									"key": "client_secret",
-									"value": "",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "grant_type",
-									"value": "password",
-									"type": "text"
-								},
-								{
-									"key": "scope",
-									"value": "posts,IdentityServerApi",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "password",
-									"value": "DimaPassword123#",
-									"type": "text"
-								},
-								{
-									"key": "username",
-									"value": "dimanoit",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{identity_ulr}}/connect/token",
-							"host": [
-								"{{identity_ulr}}"
-							],
-							"path": [
-								"connect",
-								"token"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get User Info",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var data = pm.response.json();\r",
-									"pm.environment.set(\"current-user-id\", data.sub);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{LocalIdentityToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{identity_ulr}}/connect/userinfo",
-							"host": [
-								"{{identity_ulr}}"
-							],
-							"path": [
-								"connect",
-								"userinfo"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Posts Service",
 			"item": [
+				{
+					"name": "Likes",
+					"item": [
+						{
+							"name": "Like post",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{posts_api_url}}/api/likes/{{last-post-id}}/users/{{current-user-id}}",
+									"host": [
+										"{{posts_api_url}}"
+									],
+									"path": [
+										"api",
+										"likes",
+										"{{last-post-id}}",
+										"users",
+										"{{current-user-id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete like from post",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{posts_api_url}}/api/likes/{{last-post-id}}/users/{{current-user-id}}",
+									"host": [
+										"{{posts_api_url}}"
+									],
+									"path": [
+										"api",
+										"likes",
+										"{{last-post-id}}",
+										"users",
+										"{{current-user-id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Like comment",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\":\"40P-BIQBITKbZgtCFV3E\",\r\n    \"userId\":\"5b8e5f74-fb6d-43c6-bbea-5b189bc0c5cc\",\r\n    \"commentId\":\"302ca833-e4e7-4dc3-a2af-3b7de5168347\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{posts_api_url}}/api/likes/comments",
+									"host": [
+										"{{posts_api_url}}"
+									],
+									"path": [
+										"api",
+										"likes",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete like from comment",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\":\"40P-BIQBITKbZgtCFV3E\",\r\n    \"userId\":\"5b8e5f74-fb6d-43c6-bbea-5b189bc0c5cc\",\r\n    \"commentId\":\"302ca833-e4e7-4dc3-a2af-3b7de5168347\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{posts_api_url}}/api/likes/comments",
+									"host": [
+										"{{posts_api_url}}"
+									],
+									"path": [
+										"api",
+										"likes",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Comments",
+					"item": [
+						{
+							"name": "Add Comment",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\":\"40P-BIQBITKbZgtCFV3E\",\r\n    \"userId\":\"5b8e5f74-fb6d-43c6-bbea-5b189bc0c5cc\",\r\n    \"text\":\"Comment with id\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{posts_api_url}}/api/comments",
+									"host": [
+										"{{posts_api_url}}"
+									],
+									"path": [
+										"api",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Comment",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{posts_api_url}}/api/comments/c7c794c1-3744-45a9-8297-79e55d858522/posts/40P-BIQBITKbZgtCFV3E",
+									"host": [
+										"{{posts_api_url}}"
+									],
+									"path": [
+										"api",
+										"comments",
+										"c7c794c1-3744-45a9-8297-79e55d858522",
+										"posts",
+										"40P-BIQBITKbZgtCFV3E"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
 				{
 					"name": "Get Posts By User Id",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{LocalIdentityToken}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{posts_api_url}}/api/search/user?userId={{current-user-id}}",
+							"raw": "{{posts_api_url}}/api/search/user?currentUserId={{current-user-id}}&usersIds=5b8e5f74-fb6d-43c6-bbea-5b189bc0c5cc",
 							"host": [
 								"{{posts_api_url}}"
 							],
@@ -248,8 +190,17 @@
 									"disabled": true
 								},
 								{
-									"key": "userId",
+									"key": "usersIds",
+									"value": "{{current-user-id}}",
+									"disabled": true
+								},
+								{
+									"key": "currentUserId",
 									"value": "{{current-user-id}}"
+								},
+								{
+									"key": "usersIds",
+									"value": "5b8e5f74-fb6d-43c6-bbea-5b189bc0c5cc"
 								}
 							]
 						}
@@ -258,21 +209,26 @@
 				},
 				{
 					"name": "Get Posts By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();",
+									"pm.environment.set(\"last-post-id\", data.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{LocalIdentityToken}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{posts_api_url}}/api/search?Id=J1QY8YABYgwZi8UCr6Im",
+							"raw": "{{posts_api_url}}/api/search?currentUserId={{current-user-id}}&Id=40P-BIQBITKbZgtCFV3E",
 							"host": [
 								"{{posts_api_url}}"
 							],
@@ -282,13 +238,12 @@
 							],
 							"query": [
 								{
-									"key": "skip",
-									"value": "",
-									"disabled": true
+									"key": "currentUserId",
+									"value": "{{current-user-id}}"
 								},
 								{
 									"key": "Id",
-									"value": "J1QY8YABYgwZi8UCr6Im"
+									"value": "40P-BIQBITKbZgtCFV3E"
 								}
 							]
 						}
@@ -316,7 +271,7 @@
 								{
 									"key": "files",
 									"type": "file",
-									"src": "/C:/Users/diman/Pictures/d7deef7ef29adf8187d9a9f39e6a034e.png"
+									"src": "/C:/Users/dkirieiev/Pictures/gachi-gachimuchi.gif"
 								},
 								{
 									"key": "text",
@@ -421,14 +376,14 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{posts_api_url}}/api/views/IzJ_aH4B6A1yFUQ9xA6U/count/10",
+							"raw": "{{posts_api_url}}/api/views/{{last-post-id}}/count/10",
 							"host": [
 								"{{posts_api_url}}"
 							],
 							"path": [
 								"api",
 								"views",
-								"IzJ_aH4B6A1yFUQ9xA6U",
+								"{{last-post-id}}",
 								"count",
 								"10"
 							],
@@ -460,7 +415,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"text\": \"Updated post elastic post\",\r\n    \"postId\":\"HRYAzH8BvNIFCXbnFaFy\"\r\n}",
+							"raw": "{\r\n    \"text\": \"Updated post elastic2 post\",\r\n    \"postId\":\"{{last-post-id}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -503,23 +458,20 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{posts_api_url}}/api/posts?postId=QvBVbX4B_17mPzU6Txvg",
+							"raw": "{{posts_api_url}}/api/posts/{{last-post-id}}",
 							"host": [
 								"{{posts_api_url}}"
 							],
 							"path": [
 								"api",
-								"posts"
+								"posts",
+								"{{last-post-id}}"
 							],
 							"query": [
 								{
 									"key": "skip",
 									"value": "",
 									"disabled": true
-								},
-								{
-									"key": "postId",
-									"value": "QvBVbX4B_17mPzU6Txvg"
 								}
 							]
 						}
@@ -560,6 +512,83 @@
 					"response": []
 				},
 				{
+					"name": "Unlike post",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/posts/{{last-post-id}}/like?userId={{current-user-id}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"posts",
+								"{{last-post-id}}",
+								"like"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "{{current-user-id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete post",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/posts/{{last-post-id}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"posts",
+								"{{last-post-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Like post",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/posts/{{last-post-id}}/like?userId={{current-user-id}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"posts",
+								"{{last-post-id}}",
+								"like"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "{{current-user-id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Search posts by user id",
 					"request": {
 						"auth": {
@@ -575,13 +604,43 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{gateway_url}}/posts/user/{{current-user-id}}",
+							"raw": "{{gateway_url}}/posts/user/{{current-user-id}}/me/{{current-user-id}}",
 							"host": [
 								"{{gateway_url}}"
 							],
 							"path": [
 								"posts",
 								"user",
+								"{{current-user-id}}",
+								"me",
+								"{{current-user-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get friends posts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/user-posts/{{current-user-id}}",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"user-posts",
 								"{{current-user-id}}"
 							]
 						}
@@ -593,6 +652,160 @@
 		{
 			"name": "Account Manage Service",
 			"item": [
+				{
+					"name": "Mate",
+					"item": [
+						{
+							"name": "Send Mate Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"senderId\":\"0dae4d7d-d8e0-4ebe-b9f1-7ec25b40e844\",\r\n    \"recipientId\":\"f23450fd-12bc-43dc-a2e4-6b4e4fa31bc1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{accountManage_url}}/api/mate",
+									"host": [
+										"{{accountManage_url}}"
+									],
+									"path": [
+										"api",
+										"mate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Approve Mate Request",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"senderId\":\"0dae4d7d-d8e0-4ebe-b9f1-7ec25b40e844\",\r\n    \"recipientId\":\"5b8e5f74-fb6d-43c6-bbea-5b189bc0c5cc\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{accountManage_url}}/api/mate/approve",
+									"host": [
+										"{{accountManage_url}}"
+									],
+									"path": [
+										"api",
+										"mate",
+										"approve"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reject Mate Request",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"senderId\":\"0dae4d7d-d8e0-4ebe-b9f1-7ec25b40e844\",\r\n    \"recipientId\":\"5b8e5f74-fb6d-43c6-bbea-5b189bc0c5cc\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{accountManage_url}}/api/mate/reject",
+									"host": [
+										"{{accountManage_url}}"
+									],
+									"path": [
+										"api",
+										"mate",
+										"reject"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Mate Requests",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{accountManage_url}}/api/mate/{{current-user-id}}/requests",
+									"host": [
+										"{{accountManage_url}}"
+									],
+									"path": [
+										"api",
+										"mate",
+										"{{current-user-id}}",
+										"requests"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Mates",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{accountManage_url}}/api/mate/{{current-user-id}}",
+									"host": [
+										"{{accountManage_url}}"
+									],
+									"path": [
+										"api",
+										"mate",
+										"{{current-user-id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Mates Ids",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{accountManage_url}}/api/mate/{{current-user-id}}/ids",
+									"host": [
+										"{{accountManage_url}}"
+									],
+									"path": [
+										"api",
+										"mate",
+										"{{current-user-id}}",
+										"ids"
+									],
+									"query": [
+										{
+											"key": "skip",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
 				{
 					"name": "Healthchek",
 					"request": {
@@ -626,6 +839,68 @@
 								"api",
 								"user-info",
 								"{{current-user-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{accountManage_url}}/api/user-info",
+							"host": [
+								"{{accountManage_url}}"
+							],
+							"path": [
+								"api",
+								"user-info"
+							],
+							"query": [
+								{
+									"key": "fullname",
+									"value": "Dmytro Kirieiev",
+									"disabled": true
+								},
+								{
+									"key": "orderBy",
+									"value": "Birthday",
+									"disabled": true
+								},
+								{
+									"key": "take",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user info",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"aboutMe\":\"Kek Chebyrek\",\r\n    \"gender\":\"Male\",\r\n    \"fullName\":\"Dmytro Kirieiev\",\r\n    \"birthday\":\"1998-12-10\",\r\n    \"id\": \"0dae4d7d-d8e0-4ebe-b9f1-7ec25b40e844\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{accountManage_url}}/api/user-info",
+							"host": [
+								"{{accountManage_url}}"
+							],
+							"path": [
+								"api",
+								"user-info"
 							]
 						}
 					},
@@ -692,7 +967,7 @@
 								{
 									"key": "picture",
 									"type": "file",
-									"src": "/Users/Dima/Pictures/1619443089169.jpeg"
+									"src": "/C:/Users/dkirieiev/Pictures/photo_2020-07-14_19-17-11.jpg"
 								}
 							]
 						},
@@ -767,7 +1042,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{interests_url}}/api/interests?interestsIds=62a62c5b4a4398f6e8bf349f&interestsIds=62a62c5b4a4398f6e8bf34a0",
+									"raw": "{{interests_url}}/api/interests?interestsIds=63638770a204ca4151414a8e&interestsIds=63638770a204ca4151414a8f",
 									"host": [
 										"{{interests_url}}"
 									],
@@ -778,11 +1053,11 @@
 									"query": [
 										{
 											"key": "interestsIds",
-											"value": "62a62c5b4a4398f6e8bf349f"
+											"value": "63638770a204ca4151414a8e"
 										},
 										{
 											"key": "interestsIds",
-											"value": "62a62c5b4a4398f6e8bf34a0"
+											"value": "63638770a204ca4151414a8f"
 										}
 									]
 								}
@@ -823,7 +1098,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"userId\":\"{{current-user-id}}\",\n    \"interestId\":\"62c40a801921b26b53923348\",\n    \"interestType\":\"MovieGenre\"\n}",
+									"raw": "{\n    \"userId\":\"{{current-user-id}}\",\n    \"interestId\":\"63638770a204ca4151414a90\",\n    \"interestType\":\"Sport\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -931,14 +1206,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{interests_url}}/api/genres/62c4608a4c2c9bd94b832c53/users/{{current-user-id}}",
+									"raw": "{{interests_url}}/api/genres/63909f3aa443269bee28f17c/users/{{current-user-id}}",
 									"host": [
 										"{{interests_url}}"
 									],
 									"path": [
 										"api",
 										"genres",
-										"62c4608a4c2c9bd94b832c53",
+										"63909f3aa443269bee28f17c",
 										"users",
 										"{{current-user-id}}"
 									]
@@ -1055,6 +1330,566 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Sports",
+					"item": [
+						{
+							"name": "Upload Sport Activities",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"sports\":[\r\n       \"Breakdancing\",\r\n        \"Competitive dancing\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{interests_url}}/api/sport",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"sport"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get sports activities",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{interests_url}}/api/sport",
+									"host": [
+										"{{interests_url}}"
+									],
+									"path": [
+										"api",
+										"sport"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Identity Service",
+			"item": [
+				{
+					"name": "Register Users",
+					"item": [
+						{
+							"name": "Register Dima",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Email\":\"dimanoit@gmail.com\",\r\n    \"Password\":\"DimaPassword123#\",\r\n    \"ConfirmPassword\":\"DimaPassword123#\",\r\n    \"Nickname\":\"dimanoit\",\r\n    \"FullName\":\"Dmytro Kirieiev\",\r\n    \"Birthday\":\"1998-10-12\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{identity_ulr}}/api/account",
+									"host": [
+										"{{identity_ulr}}"
+									],
+									"path": [
+										"api",
+										"account"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register Den",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Email\":\"den@gmail.com\",\r\n    \"Password\":\"DimaPassword123#\",\r\n    \"ConfirmPassword\":\"DimaPassword123#\",\r\n    \"Nickname\":\"den\",\r\n    \"FullName\":\"Den Shved\",\r\n    \"Birthday\":\"1997-05-20\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{identity_ulr}}/api/account",
+									"host": [
+										"{{identity_ulr}}"
+									],
+									"path": [
+										"api",
+										"account"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register Max",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Email\":\"max@gmail.com\",\r\n    \"Password\":\"DimaPassword123#\",\r\n    \"ConfirmPassword\":\"DimaPassword123#\",\r\n    \"Nickname\":\"max\",\r\n    \"FullName\":\"Max Nekr\",\r\n    \"Birthday\":\"1999-01-11\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{identity_ulr}}/api/account",
+									"host": [
+										"{{identity_ulr}}"
+									],
+									"path": [
+										"api",
+										"account"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{identity_ulr}}/api/account",
+							"host": [
+								"{{identity_ulr}}"
+							],
+							"path": [
+								"api",
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{identity_ulr}}/api/account",
+							"host": [
+								"{{identity_ulr}}"
+							],
+							"path": [
+								"api",
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Token For Local Api Dima",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"pm.environment.set(\"LocalIdentityToken\", data.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "test_human_client",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "posts,IdentityServerApi",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "DimaPassword123#",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "dimanoit",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{identity_ulr}}/connect/token",
+							"host": [
+								"{{identity_ulr}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Token For Local Api Den",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"pm.environment.set(\"LocalIdentityToken\", data.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "test_human_client",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "posts,IdentityServerApi",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "DimaPassword123#",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "den",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{identity_ulr}}/connect/token",
+							"host": [
+								"{{identity_ulr}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"pm.environment.set(\"current-user-id\", data.sub);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LocalIdentityToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{identity_ulr}}/connect/userinfo",
+							"host": [
+								"{{identity_ulr}}"
+							],
+							"path": [
+								"connect",
+								"userinfo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chat",
+			"item": [
+				{
+					"name": "Create dialog",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"initiatorId\":\"{{current-user-id}}\",\r\n    \"chatType\":\"Dialog\",\r\n    \"participantsIds\":[\r\n        \"{{current-user-id}}\",\"5b8e5f74-fb6d-43c6-bbea-5b189bc0c5cc\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{chat_url}}/api/chat",
+							"host": [
+								"{{chat_url}}"
+							],
+							"path": [
+								"api",
+								"chat"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create group",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"initiatorId\":\"{{current-user-id}}\",\r\n    \"chatType\":\"Group\",\r\n    \"title\":\"First test group\",\r\n    \"participantsIds\":[\r\n        \"{{current-user-id}}\",\r\n        \"5b8e5f74-fb6d-43c6-bbea-5b189bc0c5cc\",\r\n        \"f23450fd-12bc-43dc-a2e4-6b4e4fa31bc1\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{chat_url}}/api/chat",
+							"host": [
+								"{{chat_url}}"
+							],
+							"path": [
+								"api",
+								"chat"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create channel",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"initiatorId\":\"{{current-user-id}}\",\r\n    \"chatType\":\"Channel\",\r\n    \"title\":\"Animals\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{chat_url}}/api/chat",
+							"host": [
+								"{{chat_url}}"
+							],
+							"path": [
+								"api",
+								"chat"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "senderId",
+									"value": "{{current-user-id}}",
+									"type": "text"
+								},
+								{
+									"key": "text",
+									"value": "There should be files",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "files",
+									"type": "file",
+									"src": [
+										"/C:/Users/dkirieiev/Pictures/photo_2020-07-14_19-17-11.jpg",
+										"/C:/Users/dkirieiev/Pictures/photo_2022-07-18_12-59-29.jpg",
+										"/C:/Users/dkirieiev/Pictures/photo_2022-12-02_19-38-39.jpg"
+									],
+									"disabled": true
+								},
+								{
+									"key": "chatId",
+									"value": "6398cb0d634992da74ad90f5",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{chat_url}}/api/message",
+							"host": [
+								"{{chat_url}}"
+							],
+							"path": [
+								"api",
+								"message"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Chat",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"chatId\":\"6398cb14634992da74ad90f6\",\r\n    \"userId\":\"{{current-user-id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{chat_url}}/api/chat",
+							"host": [
+								"{{chat_url}}"
+							],
+							"path": [
+								"api",
+								"chat"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
